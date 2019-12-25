@@ -1,7 +1,7 @@
 // #pragma once
 #ifndef ESC_DJI_h
 #define ESC_DJI_h
-
+#include "mbed.h"
 //クラスの定義
 //クラス名・コンストラクタ名・関数名や使用する変数名を定義します。
 class ESC_DJI
@@ -34,7 +34,7 @@ public:
     //CANデータ拡張項目
     typedef struct
     {
-        int16_t frq;
+        int frq;
         long pos;
     } exEscDataSt;
     exEscDataSt exEscData[4];  //C620の拡張データ
@@ -43,9 +43,9 @@ public:
     //C610のCANデータ格納用構造体
     typedef struct
     {
-        int16_t angle;
-        int16_t rotation;
-        int16_t torque;
+        int angle;
+        int rotation;
+        int torque;
     } C610DataSt;
     C610DataSt c610Data[2];
 

@@ -1,6 +1,6 @@
 #ifndef INTERRUPUT_YAMASHOEDITION_H
 #define INTERRUPUT_YAMASHOEDITION_H
-
+#include "mbed.h"
 extern Ticker msTimer;
 extern int monitoring;
 extern int speed;

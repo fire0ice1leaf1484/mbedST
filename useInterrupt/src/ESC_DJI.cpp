@@ -274,7 +274,7 @@ void ESC_DJI::printExpData(void)
     pc.printf(" ] =");
     pc.printf("%d", exEscData[id].frq);
     pc.printf(", ");
-    pc.printf("%d", exEscData[id].pos);
+    pc.printf("%ld", exEscData[id].pos);
     pc.printf("\t");
   }
   pc.printf("\n");

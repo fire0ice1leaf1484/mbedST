@@ -1,5 +1,8 @@
 #ifndef PINOUT_YAMASHOEDITION_H
 #define PINOUT_YAMASHOEDITION_H
+#include "mbed.h"
+#include "ESC_DJI.h"
+#include "Chassis.h"
 extern ESC_DJI motor;
 extern Chassis chassis;
 extern PwmOut motorPWM[10];
