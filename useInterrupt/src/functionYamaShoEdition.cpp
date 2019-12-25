@@ -17,3 +17,18 @@ double min(double a, double b)
 {
     return a < b ? a : b;
 }
+double swap(double* a,double* b){
+    double tmp=*a;
+    *a=*b;
+    *b=tmp;
+}
+double constrain(double a,double b,double c){
+    if(a>b){
+        swap(&a,&b);
+    }if(b>c){
+        swap(&b,&c);
+    }if(a>b){
+        swap(&a,&b);
+    }
+    return b;
+}

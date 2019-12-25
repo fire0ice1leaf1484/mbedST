@@ -2,7 +2,8 @@
 #include "pinOutYamaShoEdition.h"
 #include "interruptYamaShoEdition.h"
 #include "communication.h"
-
+#include "ESC_DJI.h"
+#include "Chassis.h"
 Ticker msTimer;
 //外でも使う変数
 int speed;
@@ -68,6 +69,12 @@ void timer()
         joystick_ry = 0;
         joystick_lx = 0;
         joystick_ly = 0;
+    }
+    if (counter > 1000)
+    {
+        motor.getCanData();
+        chassis.setSensRotation(motor.sensRotation);
+        motor.driveWheel(chassis.wheelAmpere);
     }
     counter++;
 }

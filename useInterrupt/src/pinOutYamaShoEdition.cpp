@@ -1,11 +1,14 @@
 #include "mbed.h"
 #include "pinOutYamaShoEdition.h"
 
+#include "ESC_DJI.h"
+#include "Chassis.h"
 Serial pc(USBTX, USBRX);
 Serial DualShock3(PA_0, PA_1);
-CAN can1(PA_12, PA_11);
+CAN myCAN(PA_12, PA_11);
 DigitalOut myled(LED1);
-CANMessage msg();
+ESC_DJI motor;
+Chassis chassis;
 PwmOut motorPWM[10] = {
     PwmOut(PC_7),
     PwmOut(PA_9),
