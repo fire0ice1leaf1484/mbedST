@@ -1,6 +1,7 @@
 #include "mbed.h"
 #include "pinOutYamaShoEdition.h"
 #include "interruptYamaShoEdition.h"
+#include "functionYamaShoEdition.h"
 #include "communication.h"
 #include "ESC_DJI.h"
 #include "Chassis.h"
@@ -10,14 +11,30 @@ int speed;
 int counter;
 int data[10] = {0};
 int monitoring = 0;
-
+double motorspeed[4] = {0, 0, 0, 0};
+int power = 0;
+char buf[10] = {};
+void canRx()
+{
+    motor.getCanData();
+}
 void pcRx()
 {
     //PC受信割込み
-    char ch[3];
-    ch[0] = pc.getc();
-    ch[1] = 0;
-    speed = atof(ch);
+    char temp = pc.getc();
+    if (temp == 'p')
+    {
+
+        power = atof(buf);
+        for (int i = 0; i < 10; i++)
+        {
+            buf[i] = 0;
+        }
+    }
+    else
+    {
+        sprintf(buf, "%s%c", buf, temp);
+    }
 }
 void dualshock3Rx()
 {
@@ -72,9 +89,13 @@ void timer()
     }
     if (counter > 1000)
     {
-        motor.getCanData();
-        chassis.setSensRotation(motor.sensRotation);
-        motor.driveWheel(chassis.wheelAmpere);
+        for (int i = 0; i < 4; i++)
+        {
+            motorspeed[i] = (double)power/(double)motor.wEscData[i].rotation*(double)motor.wEscData[i].torque;
+        }
+        int pow[4]={motorspeed[0]};
+        motor.driveWheel(pow);
+        //chassis.setSensRotation(motor.sensRotation);
     }
     counter++;
 }
@@ -85,4 +106,6 @@ void attachInterrupt()
     DualShock3.attach(dualshock3Rx, Serial::RxIrq);
     pc.attach(pcRx, Serial::RxIrq);
     msTimer.attach(&timer, 0.001);
+    myCAN.mode(CAN::Normal);
+    myCAN.attach(canRx, CAN::RxIrq);
 }

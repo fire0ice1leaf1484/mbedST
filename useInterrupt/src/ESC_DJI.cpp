@@ -3,7 +3,6 @@
 #include "pinOutYamaShoEdition.h"
 #include "functionYamaShoEdition.h"
 #include <stdlib.h>
-
 //初期化処理を行う関数
 //コンストラクタは、　クラス名::クラス名と同じ名前で構成します
 ESC_DJI::ESC_DJI(void)
@@ -31,7 +30,7 @@ void ESC_DJI::driveWheel(int u[4])
   }
 
   //緊急停止(脱力) でない場合
-  if (flgStop == false && flgNoCanData == false)
+  if (flgStop == false && 1 /*flgNoCanData == false*/)
   {
     for (int i = 0; i < 4; i++)
     {
@@ -135,9 +134,9 @@ void ESC_DJI::getESCCanData(CANMessage m)
   }
 
   id = id - 0x201; //識別子から添え字に変換
-  wEscData[id].angle = m.data[0] * 256 + m.data[1];
-  wEscData[id].rotation = m.data[2] * 256 + m.data[3];
-  wEscData[id].torque = m.data[4] * 256 + m.data[5];
+  wEscData[id].angle = (int)((short)(m.data[0] << 8)+m.data[1]);
+  wEscData[id].rotation = (int)((short)(m.data[2] << 8)+m.data[3]);
+  wEscData[id].torque = (int)((short)(m.data[4] << 8)+m.data[5]);
   wEscData[id].temp = m.data[6];
   sensRotation[id] = wEscData[id].rotation;
 

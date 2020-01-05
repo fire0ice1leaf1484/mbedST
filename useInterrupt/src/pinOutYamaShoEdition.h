@@ -10,7 +10,7 @@ extern Serial pc;
 extern Serial DualShock3;
 extern DigitalOut myled;
 extern CAN myCAN;
-void initCAN();
+extern SPISlave spi2;
 void initPWM();
 void initAll();
 

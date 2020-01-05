@@ -7,19 +7,16 @@
 #include "Chassis.h"
 int main()
 {
-  initAll();
+  //initAll();
   attachInterrupt();
   //ESC
   motor.init();
-  motor.setMotorMaxSpeed(25);
+  motor.setMotorMaxSpeed(100);
   while (1)
   {
     chassis.setRobotVector(joystick_rx, joystick_ry, joystick_lx);
-    for (int i = 0; i < 10; i++)
-    {
-      pc.printf("%d\t", data[i]);
-    }
+    pc.printf("%d\t",motor.wEscData[0].rotation);
     myled = !myled;
-    wait(0.05);
+    pc.printf("%d\n", power);
   }
 }
