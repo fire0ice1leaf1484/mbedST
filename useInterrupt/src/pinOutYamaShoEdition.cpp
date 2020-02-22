@@ -3,8 +3,8 @@
 #include "CAN.h"
 #include "ESC_DJI.h"
 #include "Chassis.h"
-Serial pc(USBTX, USBRX);
-Serial DualShock3(PA_0, PA_1);
+RawSerial pc(USBTX, USBRX);
+RawSerial DualShock3(PA_0, PA_1);
 CAN myCAN(PA_11, PA_12, 1e6);
 DigitalOut myled(LED1);
 ESC_DJI motor;
