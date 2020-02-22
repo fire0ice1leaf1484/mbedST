@@ -13,7 +13,7 @@ Ticker msTimer;
 MPU6050 mpu;
 Timer t;
 //外でも使う変数
-int rx_data[RX_NUM] = {0};
+char rx_data[RX_NUM] = {0};
 int receive[RX_NUM] = {0};
 int data_num = 0;
 int rx_buff = 0;
@@ -64,7 +64,6 @@ void gyro()
         {
             angle[i] += fabs(ds[i] * dt) > 0.000025 ? ds[i] * dt : 0;
         }
-        pc.printf("%f\n", angle[2]);
         counter = 0;
     }
 }
@@ -89,6 +88,8 @@ void pcRx()
         {
             rx_data[i] = receive[i];
         }
+
+        getKey(rx_data);
     }
     // if (temp == 'p')
     // {

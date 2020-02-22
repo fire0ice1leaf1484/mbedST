@@ -1,4 +1,4 @@
-#include "stdlib.h"
+#include <stdlib.h>
 #include "communication.h"
 #include "mbed.h"
 #include "pinOutYamaShoEdition.h"
@@ -6,7 +6,7 @@
 #include "interruptYamaShoEdition.h"
 #include "ESC_DJI.h"
 #include "Chassis.h"
-#include "MPU6050.h"
+#include <MPU6050.h>
 
 int main()
 {
@@ -46,5 +46,6 @@ int main()
   {
     //chassis.setRobotVector(joystick_rx, joystick_ry, joystick_lx);
     //myled = !myled;
+    pc.printf("%d\n", button_a.press);
   }
 }

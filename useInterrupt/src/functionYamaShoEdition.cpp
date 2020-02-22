@@ -33,3 +33,8 @@ double constrain(double a, double b, double c)
         swap(&a, &b);
     return b;
 }
+void resetArray(int a[], int num)
+{
+    for (int i = 0; i < num; i++)
+        a[i] = 0;
+}

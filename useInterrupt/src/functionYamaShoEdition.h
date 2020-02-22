@@ -13,4 +13,5 @@ double max(double, double);
 double min(double, double);
 double swap(double *, double *);
 double constrain(double, double, double);
+void resetArray(int[], int);
 #endif
