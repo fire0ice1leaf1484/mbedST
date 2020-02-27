@@ -288,7 +288,30 @@ int JoyStick_DeadBand(int js)
         js += (js < 0) ? DEAD_BAND : -DEAD_BAND;
     return js;
 }
-
+void setZero()
+{
+    circle_button = 0;
+    cross_button = 0;
+    triangle_button = 0;
+    square_button = 0;
+    left_button = 0;
+    right_button = 0;
+    up_button = 0;
+    down_button = 0;
+    l1_button = 0;
+    l2_button = 0;
+    l3_button = 0;
+    r1_button = 0;
+    r2_button = 0;
+    r3_button = 0;
+    ps_button = 0;
+    start_button = 0;
+    select_button = 0;
+    joystick_rx = 0;
+    joystick_ry = 0;
+    joystick_lx = 0;
+    joystick_ly = 0;
+}
 int checkSum(int *rcv)
 {
     int i, sum;

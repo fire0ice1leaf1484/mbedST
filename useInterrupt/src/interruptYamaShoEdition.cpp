@@ -12,6 +12,7 @@ Thread filter;
 Ticker msTimer;
 MPU6050 mpu;
 Timer t;
+double vx,vy,vr;
 //外でも使う変数
 char rx_data[RX_NUM] = {0};
 int receive[RX_NUM] = {0};
@@ -21,7 +22,8 @@ int speed;
 int counter;
 float angle[3];
 int data[10] = {0};
-int monitoring = 0;
+int monitoring0 = 0;
+int monitoring1 = 0;
 double motorspeed[4] = {0, 0, 0, 0};
 int power = 0;
 char buf[10] = {};
@@ -47,9 +49,6 @@ void gyro()
             real_g[i] = toRadians((g[i] - dri_g[i]) / 131.);
             real_a[i] = (a[i] - dri_a[i]) / 16384 * g0;
         }
-
-        //pc.printf("%f\n", real_a[2]);
-        //自分で書いたやつ
         double s[2] = {sin(angle[0]), sin(angle[1])};
         double c[2] = {cos(angle[0]), cos(angle[1])};
         double Rotation_matrix[3][3] = {
@@ -74,22 +73,29 @@ void canRx()
 }
 void pcRx()
 {
+    monitoring1 = 0;
     //PC受信割込み
+    vx=0,vy=0,vr=0;
     char temp = pc.getc();
-    if (rx_buff == 0x80)
-    {
-        resetArray(receive, RX_NUM);
-        data_num = 0;
-    }
-    receive[data_num++] = rx_buff;
-    if (data_num >= RX_NUM)
-    {
-        for (int i = 0; i < RX_NUM; i++)
-        {
-            rx_data[i] = receive[i];
-        }
-
-        getKey(rx_data);
+    switch(temp){
+        case '2':
+        vy-=1000;
+        break;
+        case '4':
+        vx-=1000;
+        break;
+        case '6':
+        vx+=1000;
+        break;
+        case '8':
+        vy+=1000;
+        break;
+        case 'z':
+        vr+=1000;
+        break;
+        case 'x':
+        vr-=1000;
+        break;
     }
     // if (temp == 'p')
     // {
@@ -110,7 +116,7 @@ void dualshock3Rx()
     //PC受信割込み
     static int No = 0;
     int buff;
-    monitoring = 0;
+    monitoring0 = 0;
     buff = DualShock3.getc();
     if (buff == 0x80)
     {
@@ -131,8 +137,9 @@ void dualshock3Rx()
 void timer()
 {
     //タイマ割り込み
-    monitoring++;
-    if (monitoring >= 200)
+    monitoring0++;
+    monitoring1++;
+    if (monitoring0 >= 200)
     {
         circle_button = 0;
         cross_button = 0;
@@ -155,6 +162,11 @@ void timer()
         joystick_ry = 0;
         joystick_lx = 0;
         joystick_ly = 0;
+    }
+    if(monitoring1>100){
+        vx=0;vy=0;vr=0;
+    }else{
+        move(vx,vy,vr,motor);
     }
 
     if (counter > 1000)

@@ -5,8 +5,12 @@
 extern Thread filter;
 extern Ticker msTimer;
 extern MPU6050 mpu;
-extern int monitoring;
+extern int monitoring0;
+extern int monitoring1;
 extern double motorspeed[4];
+extern double vx;
+extern double vy;
+extern double vr;
 extern int speed;
 extern int counter;
 extern int data[10];
