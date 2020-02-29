@@ -1,32 +1,36 @@
 #include "mbed.h"
 #include "MPU6050.h"
 #include "MadgwickAHRS.h"
-#include "gyro.h"
+#include "position_search.h"
 #include "communication.h"
-Ticker mstimer;
-RawSerial pc(USBTX, USBRX);
-RawSerial DualShock3(USBTX, USBRX);
-int data[8];
-int monitoring0; //モニターカウントやつ
-int monitoring1; //モニターカウントやつ
-int main()
-{
-  //メインはdispにつかいたい
-  wait(5.0f);
-  gyro_filter.start(gyro);
-  //disp_filter.start(disp);
 
+///////////////////////////////////////////////////////////////
+
+Ticker mstimer;                     //1msタイマー
+RawSerial pc(USBTX, USBRX);         //PCとの通信
+RawSerial DualShock3(USBTX, USBRX); //DualShock3との通信
+int data[8];                        //DualShock3のデータ
+int monitoring0;                    //モニターカウントやつ
+int monitoring1;                    //モニターカウントやつ
+void timer();                       //1msタイマー割り込み
+void pcRx();                        //PCとの通信割り込み
+void dualshock3Rx();                //DualShock3との通信割り込み
+
+////////////////////////////////////////////////////////////////
+
+int main() //メインはdispにつかいたい
+{
+  wait(5.0f);
+  positionThread.start(position);
+  mstimer.attach(timer, 0.001);
   while (1)
   {
-    pc.printf("%f\t\t%f\t\t%f\n", yaw, yaw_radian, dt);
+    pc.printf("%f\t%f\t%f\n", yaw_radian, yaw, dt);
   }
 }
 
-//1msタイマ割込み
-
 void timer()
 {
-  //タイマ割り込み
   monitoring0++;
   monitoring1++;
   if (monitoring0 > 200)
@@ -34,9 +38,6 @@ void timer()
     setZero();
   }
   if (monitoring1 > 100)
-  {
-  }
-  else
   {
   }
 }
