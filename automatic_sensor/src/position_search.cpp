@@ -17,15 +17,16 @@ float driftA[3] = {0}; //初期値
 
 float realG[3] = {0}; //生値-初期値
 float realA[3] = {0}; //生値-初期値
+
 float newTime, oldTime;
 
 //gloval////////////////////////////////////////////////////
 
 Thread positionThread;
-
 double dx, dy;
 double realX, realY, realR;
 float yaw, yaw_radian, dt;
+
 ////////////////////////////////////////////////////////////
 
 void setDrift(int);    //初期値設定
@@ -55,7 +56,7 @@ void position(void)
     }
 }
 
-//初期値設定
+//初期値設定 numはサンプル数
 void setDrift(int num)
 {
     for (int i = 0; i < num; i++)

@@ -314,7 +314,7 @@ void setZero()
 }
 int checkSum(int *rcv)
 {
-    int i, sum;
+    int i, sum = 0;
     for (i = 0; i < 8; i++)
     {
         sum += rcv[i];

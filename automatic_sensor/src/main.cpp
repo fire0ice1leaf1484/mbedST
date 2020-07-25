@@ -3,32 +3,32 @@
 #include "MadgwickAHRS.h"
 #include "position_search.h"
 #include "communication.h"
+#include "pinOutYamaShoEdition.h"
 
 ///////////////////////////////////////////////////////////////
-
-Ticker mstimer;                     //1msタイマー
-RawSerial pc(USBTX, USBRX);         //PCとの通信
-RawSerial DualShock3(USBTX, USBRX); //DualShock3との通信
-int data[8];                        //DualShock3のデータ
-int monitoring0;                    //モニターカウントやつ
-int monitoring1;                    //モニターカウントやつ
-void timer();                       //1msタイマー割り込み
-void pcRx();                        //PCとの通信割り込み
-void dualshock3Rx();                //DualShock3との通信割り込み
+Ticker msTimer;      //1msタイマー
+int data[8];         //DualShock3のデータ
+int monitoring0;     //モニターカウントやつ
+int monitoring1;     //モニターカウントやつ
+void timer();        //1msタイマー割り込み
+void pcRx();         //PCとの通信割り込み
+void dualshock3Rx(); //DualShock3との通信割り込み
 
 ////////////////////////////////////////////////////////////////
 
-int main() //メインはdispにつかいたい
+//メインはdispにつかいたい
+int main()
 {
   wait(5.0f);
   positionThread.start(position);
-  mstimer.attach(timer, 0.001);
+  msTimer.attach(timer, 0.001);
   while (1)
   {
     pc.printf("%f\t%f\t%f\n", yaw_radian, yaw, dt);
   }
 }
 
+//1msタイマ割込み
 void timer()
 {
   monitoring0++;
@@ -41,10 +41,14 @@ void timer()
   {
   }
 }
+
+//PC受信割込み
 void pcRx()
 {
   monitoring1 = 0;
 }
+
+//DualShock3受信割込み
 void dualshock3Rx()
 {
   static int No = 0;
