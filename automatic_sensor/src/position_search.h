@@ -1,7 +1,6 @@
 #ifndef POSITION___H
 #define POSITION___H
 
-#include <math.h>
 #include "mbed.h"
 #include "MPU6050.h"
 #include "MadgwickAHRS.h"

@@ -42,7 +42,17 @@ void ESC_DJI::driveWheel(int u[4])
   }
   myCAN.write(msg);
 }
-
+void ESC_DJI::motorV(double motor[])//自作だれか変えてほしい
+{
+    int motorspeed[4];
+    for (int i = 0; i < 4; i++)
+    {
+        double iIn = wEscData[i].torque ? wEscData[i].torque : 1e-3;
+        double vOut = wEscData[i].rotation ? wEscData[i].rotation : 1e-3;
+        motorspeed[i] = motor[i] / vOut * iIn;
+    }
+    driveWheel(motorspeed);
+}
 //********************************************************************************
 // CANデータ受信
 //********************************************************************************

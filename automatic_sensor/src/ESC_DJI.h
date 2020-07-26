@@ -1,7 +1,6 @@
 // #pragma once
 #ifndef ESC_DJI_h
 #define ESC_DJI_h
-#include <stdlib.h>
 #include "mbed.h"
 #include "functionYamaShoEdition.h"
 #include "pinoutYamaShoEdition.h"
@@ -12,6 +11,7 @@ public:
     void init();
     void getCanData();
     void driveWheel(int u[4]);
+    void motorV(double motor[]);
     bool flgNoCanData = false; //CAN受信データ途絶時にTrue
     bool flgStop = false;
     typedef struct
