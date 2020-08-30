@@ -26,7 +26,7 @@
 // Definitions
 
 #define sampleFreqDef 512.0f // sample frequency in Hz
-#define betaDef 0.0000008f   // 2 * proportional gain
+#define betaDef 0.0000004f   // 2 * proportional gain
 
 //============================================================================================
 // Functions
@@ -61,9 +61,9 @@ void Madgwick::update(float gx, float gy, float gz, float ax, float ay, float az
 	}
 
 	// Convert gyroscope degrees/sec to radians/sec
-	gx *= 0.0174533f;
-	gy *= 0.0174533f;
-	gz *= 0.0174533f;
+	gx *= M_PI/180;
+	gy *= M_PI/180;
+	gz *= M_PI/180;
 
 	// Rate of change of quaternion from gyroscope
 	qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
@@ -161,9 +161,9 @@ void Madgwick::updateIMU(float gx, float gy, float gz, float ax, float ay, float
 	float _2q0, _2q1, _2q2, _2q3, _4q0, _4q1, _4q2, _8q1, _8q2, q0q0, q1q1, q2q2, q3q3;
 
 	// Convert gyroscope degrees/sec to radians/sec
-	gx *= 0.0174533f;
-	gy *= 0.0174533f;
-	gz *= 0.0174533f;
+	gx *= M_PI/180;
+	gy *= M_PI/180;
+	gz *= M_PI/180;
 
 	// Rate of change of quaternion from gyroscope
 	qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
@@ -235,14 +235,15 @@ void Madgwick::updateIMU(float gx, float gy, float gz, float ax, float ay, float
 
 float Madgwick::invSqrt(float x)
 {
-	float halfx = 0.5f * x;
-	float y = x;
-	long i = *(long *)&y;
-	i = 0x5f3759df - (i >> 1);
-	y = *(float *)&i;
-	y = y * (1.5f - (halfx * y * y));
-	y = y * (1.5f - (halfx * y * y));
-	return y;
+	// float halfx = 0.5f * x;
+	// float y = x;
+	// long i = *(long *)&y;
+	// i = 0x5f3759df - (i >> 1);
+	// y = *(float *)&i;
+	// y = y * (1.5f - (halfx * y * y));
+	// y = y * (1.5f - (halfx * y * y));
+	// return y;
+	return 1./sqrt(x);
 }
 
 //-------------------------------------------------------------------------------------------

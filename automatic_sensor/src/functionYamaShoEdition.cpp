@@ -4,7 +4,9 @@ int is(int num)
 {
     return !!num;
 }
-
+float sq(float num){
+    return num * num;
+}
 double map(double num, double from_min, double from_max, double to_min, double to_max)
 {
     return (num - from_min) * (to_max - to_min) / (from_max - from_min) + to_min;
